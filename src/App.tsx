@@ -3,27 +3,35 @@ import {forSite} from '@himeka/booru'
 import randomizer from '../util/randomizer'
 import {ClipLoader} from 'react-spinners'
 
+type picType=
+{
+  day:number;
+  dayCounter:number;
+  url:string|null;
+  daysLeft:number;
+}
+
 function App() 
 {
-  const[pic,setPic]=useState<string|object|undefined>(undefined)
+  const[pic,setPic]=useState<picType|undefined>(undefined)
   const[load,setLoad]=useState(true)
 
   useEffect(()=>
   {
-    const item:object|null= JSON.parse(localStorage.getItem('picOfTheDays')||null)  
+    const item:picType|null= JSON.parse(localStorage.getItem('picOfTheDays')||'')  
 
     doingStuff(item)
   },[])
 
-  async function doingStuff(item) 
+  async function doingStuff(item:picType|null) 
   {
     const currentDay:number = new Date().getDay()
 
     if(item===null||currentDay>item.day)
     {
-      const url = await getUrl();
+      const url:string|null = await getUrl();
 
-      const currentPic = {
+      const currentPic:picType = {
         day: currentDay,
         dayCounter: item === null ? 0 : item.dayCounter + 1,
         url,
@@ -51,6 +59,17 @@ function App()
     return url
   }
   
+  if(load)
+  {
+    return(
+      <div className='flex justify-center items-center w-[100%] h-[100vh]'>
+              <ClipLoader
+               size={200}
+               color="#e96cb4"
+               />
+      </div>
+    )
+  }
 
   return (
     <>
@@ -60,16 +79,7 @@ function App()
             <span>{pic?.daysLeft}</span>
             <span className="capitalize"> days left</span>
           </h1>
-          {
-            load&&
-            <div className='block mt-[10rem]'>
-              <ClipLoader
-               size={200}
-               color="#e96cb4"
-               />
-            </div>
-          }
-          {pic&&!load&&<img className="block mx-auto my-0 h-[35rem] rounded-[.5rem]" src={pic?.url}></img>}
+          {pic&&!load&&<img className="block mx-auto my-0 h-[35rem] rounded-[.5rem]" src={pic?.url||undefined}></img>}
         </section>
         <button className='py-[.5rem] px-[.8rem] fixed right-[4rem] bottom-[4rem] bg-pink-600'
          onClick={()=>doingStuff(null)}
