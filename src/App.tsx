@@ -11,6 +11,7 @@ type picType=
   daysLeft:number;
 }
 
+
 function App() 
 {
   const[pic,setPic]=useState<picType|undefined>(undefined)
@@ -18,7 +19,7 @@ function App()
 
   useEffect(()=>
   {
-    const item:picType|null= JSON.parse(localStorage.getItem('picOfTheDays')||'')  
+    const item:picType|null= localStorage.getItem('picOfTheDays')? JSON.parse(localStorage.getItem('picOfTheDays')||''):null  
 
     doingStuff(item)
   },[])
@@ -59,17 +60,6 @@ function App()
     return url
   }
   
-  if(load)
-  {
-    return(
-      <div className='flex justify-center items-center w-[100%] h-[100vh]'>
-              <ClipLoader
-               size={200}
-               color="#e96cb4"
-               />
-      </div>
-    )
-  }
 
   return (
     <>
@@ -79,6 +69,15 @@ function App()
             <span>{pic?.daysLeft}</span>
             <span className="capitalize"> days left</span>
           </h1>
+          {
+            load&&
+            <div className='block mt-[10rem]'>
+              <ClipLoader
+               size={200}
+               color="#e96cb4"
+               />
+            </div>
+          }
           {pic&&!load&&<img className="block mx-auto my-0 h-[35rem] rounded-[.5rem]" src={pic?.url||undefined}></img>}
         </section>
         <button className='py-[.5rem] px-[.8rem] fixed right-[4rem] bottom-[4rem] bg-pink-600'
