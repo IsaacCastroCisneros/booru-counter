@@ -5,7 +5,12 @@ export default function randomizer():string
     'crisalys',
     'xiaobanbei_milk',
     'zygocactus',
-    'takato_kurosuke'
+    'takato_kurosuke',
+    'moyazou_(kitaguni_moyashi_seizoujo)',
+    'mota',
+    'hakuurei_amano',
+    'yukie_(kusaka_shi)',
+    'awakumo'
   ]
 
   for (let i = artist.length - 1; i > 0; i--) 
