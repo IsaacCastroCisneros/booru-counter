@@ -26,7 +26,7 @@ function App()
 
   async function doingStuff(item:picType|null) 
   {
-    const currentDay:number = new Date().getDay()
+    const currentDay:number = new Date().getDate()
 
     if(item===null||currentDay>item.day)
     {
